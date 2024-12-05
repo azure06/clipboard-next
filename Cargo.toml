@@ -1,0 +1,49 @@
+[package]
+name = "clipboard-next"
+version = "0.2.2"
+authors = ["azure06 <gabri06e@gmail.com>"]
+description = "Cross-platform clipboard API (text | image | rich text | html | files | monitoring changes) | Windows,MacOS,Linux"
+repository = "https://github.com/azure06/clipboard-next"
+documentation = "https://github.com/azure06/clipboard-next"
+license = "MIT"
+readme = "README.md"
+keywords = ["clipboard"]
+edition = "2021"
+rust-version = "1.67.0"
+
+[dependencies]
+image = { version = "0.25.4", default-features = false, features = [
+    "png",
+    "jpeg",
+] }
+
+[target.'cfg(target_os = "windows")'.dependencies]
+clipboard-win = { version = "5.4.0", features = ["monitor"] }
+image = { version = "0.25.4", default-features = false, features = [
+    "bmp",
+    "png",
+    "jpeg",
+] }
+
+[target.'cfg(target_os = "macos")'.dependencies]
+# cocoa = "0.26.0"
+objc2 = { version = "0.5.2" }
+objc2-foundation = { version = "0.2.2", features = [
+    "NSArray",
+    "NSString",
+    "NSEnumerator",
+] }
+objc2-app-kit = { version = "0.2.2", features = [
+    "NSPasteboard",
+    "NSPasteboardItem",
+    "NSImage",
+] }
+image = { version = "0.25.4", default-features = false, features = [
+    "tiff",
+    "png",
+    "jpeg",
+] }
+
+
+[target.'cfg(all(unix, not(any(target_os="macos", target_os="android", target_os="ios", target_os="emscripten"))))'.dependencies]
+x11rb = { version = "0.13.0", features = ["xfixes"] }
